@@ -8,14 +8,14 @@ public class Player : MonoBehaviour
     public MoveCamera moveCamera;
     public Rigidbody2D rb;
     public GameManager gameManager;
-    private bool lost;
+    private bool _lost;
     public TMP_Text distanceText;
     public TMP_Text highestScore;
 
     // Update is called once per frame
     void Update()
     {
-        if (lost) return;
+        if (_lost) return;
         distanceText.text = "Distance: " + (int)transform.position.x;
         transform.Translate(Vector2.right * Time.deltaTime);
         if (Input.GetMouseButtonDown(0))
@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.gameObject.CompareTag("Pipe")) return;
-        lost = true;
+        _lost = true;
         gameManager.onLose();
         Destroy(moveCamera);
         var lostDistance = (int)transform.position.x;
