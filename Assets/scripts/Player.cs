@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -9,11 +10,7 @@ public class Player : MonoBehaviour
     public GameManager gameManager;
     private bool lost;
     public TMP_Text distanceText;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    public TMP_Text highestScore;
 
     // Update is called once per frame
     void Update()
@@ -31,6 +28,11 @@ public class Player : MonoBehaviour
         lost = true;
         gameManager.onLose();
         Destroy(moveCamera);
-        Debug.Log("Failed");
+        var lostDistance = (int)transform.position.x;
+        var high = PlayerPrefs.GetInt("highest", 0);
+        var max = Math.Max(lostDistance, high);
+        PlayerPrefs.SetInt("highest", max);
+        highestScore.text = "Highest score: " + max;
+        PlayerPrefs.Save();
     }
 }
